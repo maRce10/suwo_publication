@@ -1,0 +1,7 @@
+names:
+  0: N_vison
+  1: R_rattus
+  2: Lontra_spp
+nc: 3
+train: ./data/processed/mink_detection_yolo_split/images/train
+val: ./data/processed/mink_detection_yolo_split/images/val

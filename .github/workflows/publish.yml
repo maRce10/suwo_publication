@@ -1,0 +1,43 @@
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+name: Render and deploy to GitHub Pages
+
+permissions:
+  contents: write
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+
+      - name: Set up R
+        uses: r-lib/actions/setup-r@v2
+
+      # The two case-study notebooks use heavy/exotic R and Python
+      # dependencies (warbleR, brms+cmdstanr, suwo, reticulate+ultralytics,
+      # ...) that aren't installed here. That's fine: every chunk is either
+      # `eval: false` or covered by the committed scripts/_freeze/ cache
+      # (execute: freeze: true in _quarto.yml), so rendering only needs
+      # knitr/rmarkdown to replay cached results -- it never re-executes
+      # that code. If you add new *executed* content, render locally first
+      # (where the full stack is installed) to refresh scripts/_freeze/
+      # and commit it, or this step will need the real dependencies too.
+      - name: Install R packages needed to assemble the (frozen) site
+        run: install.packages(c("knitr", "rmarkdown"))
+        shell: Rscript {0}
+
+      - name: Render and publish
+        uses: quarto-dev/quarto-actions/publish@v2
+        with:
+          target: gh-pages
+          path: scripts
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

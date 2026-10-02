@@ -1,0 +1,15 @@
+Selection	View	Channel	Begin Time (s)	End Time (s)	Low Freq (Hz)	High Freq (Hz)	Begin File	Tipo
+1	Waveform 1	1	0.552680656	0.681807912	787.500	3045.000	Procnias_averano-XC228602.wav	1
+1	Spectrogram 1	1	0.552680656	0.681807912	787.500	3045.000	Procnias_averano-XC228602.wav	1
+2	Waveform 1	1	8.315531193	8.439044220	735.000	3465.000	Procnias_averano-XC228602.wav	1
+2	Spectrogram 1	1	8.315531193	8.439044220	735.000	3465.000	Procnias_averano-XC228602.wav	1
+3	Waveform 1	1	15.092396668	15.246787951	787.500	2730.000	Procnias_averano-XC228602.wav	1
+3	Spectrogram 1	1	15.092396668	15.246787951	787.500	2730.000	Procnias_averano-XC228602.wav	1
+4	Waveform 1	1	22.702747309	22.820646107	735.000	2887.500	Procnias_averano-XC228602.wav	1
+4	Spectrogram 1	1	22.702747309	22.820646107	735.000	2887.500	Procnias_averano-XC228602.wav	1
+5	Waveform 1	1	29.011788188	29.157758128	735.000	2940.000	Procnias_averano-XC228602.wav	1
+5	Spectrogram 1	1	29.011788188	29.157758128	735.000	2940.000	Procnias_averano-XC228602.wav	1
+6	Waveform 1	1	36.668013898	36.799948268	945.000	2992.500	Procnias_averano-XC228602.wav	1
+6	Spectrogram 1	1	36.668013898	36.799948268	945.000	2992.500	Procnias_averano-XC228602.wav	1
+7	Waveform 1	1	45.963056211	46.064112324	840.000	2992.500	Procnias_averano-XC228602.wav	1
+7	Spectrogram 1	1	45.963056211	46.064112324	840.000	2992.500	Procnias_averano-XC228602.wav	1

@@ -1,0 +1,30 @@
+project:
+  type: website
+  output-dir: _site
+
+website:
+  title: "suwo manuscript companion"
+  description: "Obtaining nature media with the R package suwo -- analysis code and data"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - href: p_averano_bock_analysis.qmd
+        text: "Case study 1: Bellbird song variation"
+      - href: mink_detection_analysis.qmd
+        text: "Case study 2: Mink detection"
+
+format:
+  html:
+    css: qmd.css
+    toc: true
+    toc-depth: 3
+    toc-location: left
+    number-sections: true
+    highlight-style: pygments
+    code-fold: true
+    code-tools: true
+    df-print: kable
+
+execute:
+  freeze: true

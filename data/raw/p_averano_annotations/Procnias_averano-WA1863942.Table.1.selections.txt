@@ -1,0 +1,9 @@
+Selection	View	Channel	Begin Time (s)	End Time (s)	Low Freq (Hz)	High Freq (Hz)	Begin File	Tipo
+1	Waveform 1	1	5.197642426	5.305198233	832.075	4680.425	Procnias_averano-WA1863942.wav	1
+1	Spectrogram 1	1	5.197642426	5.305198233	832.075	4680.425	Procnias_averano-WA1863942.wav	1
+2	Waveform 1	1	17.546899207	17.638158680	624.057	4680.425	Procnias_averano-WA1863942.wav	1
+2	Spectrogram 1	1	17.546899207	17.638158680	624.057	4680.425	Procnias_averano-WA1863942.wav	1
+3	Waveform 1	1	29.314122993	29.437975134	1040.094	4784.434	Procnias_averano-WA1863942.wav	1
+3	Spectrogram 1	1	29.314122993	29.437975134	1040.094	4784.434	Procnias_averano-WA1863942.wav	1
+4	Waveform 1	1	43.222510001	43.320288007	728.066	4888.443	Procnias_averano-WA1863942.wav	1
+4	Spectrogram 1	1	43.222510001	43.320288007	728.066	4888.443	Procnias_averano-WA1863942.wav	1

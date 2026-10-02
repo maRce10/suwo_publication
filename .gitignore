@@ -1,0 +1,9 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+data/raw/p_averano_recordings/
+data/processed/p_averano_extended_selection_table.rds
+
+/.quarto/
+**/*.quarto_ipynb

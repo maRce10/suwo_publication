@@ -1,0 +1,20 @@
+---
+title: "suwo manuscript companion"
+subtitle: "Obtaining nature media with the R package suwo"
+---
+
+This site holds the analysis code and data behind the manuscript introducing [`suwo`](https://github.com/ropensci/suwo), an R package for querying, standardizing, and downloading biodiversity media (audio, images, video) from GBIF, iNaturalist, Macaulay Library, WikiAves, and Xeno-Canto.
+
+Two case studies demonstrate the package, each with its own notebook (see the navbar above):
+
+### Case study 1: Geographic variation in Bearded Bellbird (*Procnias averano*) songs
+
+Recordings and metadata were assembled across five repositories with `suwo`, then annotated, bandpass-filtered, de-duplicated, and summarized acoustically (MFCCs + PCA) before fitting a Bayesian multi-membership model (`brms`) relating pairwise acoustic dissimilarity to geographic distance, temporal separation, population identity, and recording quality.
+
+### Case study 2: Invasive species management -- detecting mammals in Patagonia
+
+Demonstrates `suwo`-enabled image retrieval to train a YOLO detection/classification model for the American Mink (*Neogale vison*), Black Rat (*Rattus rattus*), and *Lontra* otters, for use in an automated trap-release system targeting the invasive American Mink.
+
+---
+
+Source code and data: see the project's GitHub repository.
