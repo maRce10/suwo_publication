@@ -45,11 +45,10 @@ Analysis code and data for the manuscript introducing [`suwo`](https://github.co
 │       ├── dist_long_bock.rds
 │       ├── results_bock.rds
 │       └── fits/                        # saved brms model fits
-├── output/
-│   ├── catalogs/                        # per-population + per-recording annotation catalogs
-│   ├── fig_results_bock.png
-│   └── fig_twelve_spectrograms.png
-└── manuscript/
+└── output/
+    ├── catalogs/                        # per-population + per-recording annotation catalogs
+    ├── fig_results_bock.png
+    ├── fig_twelve_spectrograms.png
     └── bearded_bellbird_map_locations.png
 ```
 

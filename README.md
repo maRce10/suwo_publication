@@ -36,11 +36,10 @@ from GBIF, iNaturalist, Macaulay Library, WikiAves, and Xeno-Canto.
     │       ├── dist_long_bock.rds
     │       ├── results_bock.rds
     │       └── fits/                        # saved brms model fits
-    ├── output/
-    │   ├── catalogs/                        # per-population + per-recording annotation catalogs
-    │   ├── fig_results_bock.png
-    │   └── fig_twelve_spectrograms.png
-    └── manuscript/
+    └── output/
+        ├── catalogs/                        # per-population + per-recording annotation catalogs
+        ├── fig_results_bock.png
+        ├── fig_twelve_spectrograms.png
         └── bearded_bellbird_map_locations.png
 
 Case study 1’s raw audio recordings and case study 2’s images, query

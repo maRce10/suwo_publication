@@ -2,6 +2,7 @@
 .Rhistory
 .RData
 .Ruserdata
+.claude/
 data/raw/p_averano_recordings/
 data/processed/p_averano_extended_selection_table.rds
 
