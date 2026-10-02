@@ -1,4 +1,4 @@
-suwo manuscript companion repository
+Obtaining nature media with the R package suwo: data and code repository
 ================
 Marcelo Araya-Salas
 2026-10-02

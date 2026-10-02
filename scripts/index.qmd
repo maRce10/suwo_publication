@@ -1,6 +1,6 @@
 ---
-title: "suwo manuscript companion"
-subtitle: "Obtaining nature media with the R package suwo"
+title: "Obtaining nature media with the R package suwo"
+subtitle: "Data and code repository"
 ---
 
 This site holds the analysis code and data behind the manuscript introducing [`suwo`](https://github.com/ropensci/suwo), an R package for querying, standardizing, and downloading biodiversity media (audio, images, video) from GBIF, iNaturalist, Macaulay Library, WikiAves, and Xeno-Canto.

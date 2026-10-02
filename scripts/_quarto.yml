@@ -3,7 +3,7 @@ project:
   output-dir: _site
 
 website:
-  title: "suwo manuscript companion"
+  title: "suwo"
   description: "Obtaining nature media with the R package suwo -- analysis code and data"
   navbar:
     left:
