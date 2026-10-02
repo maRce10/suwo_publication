@@ -6,6 +6,7 @@ website:
   title: "suwo"
   description: "Obtaining nature media with the R package suwo -- analysis code and data"
   navbar:
+    background: light
     left:
       - href: index.qmd
         text: Home

@@ -7,10 +7,12 @@ Marcelo Araya-Salas
 
 ## Obtaining nature media with the R package suwo
 
-Analysis code and data for the manuscript introducing
-[`suwo`](https://github.com/ropensci/suwo), an R package for querying,
-standardizing, and downloading biodiversity media (audio, images, video)
-from GBIF, iNaturalist, Macaulay Library, WikiAves, and Xeno-Canto.
+> [!NOTE]
+> Analysis code and data for the manuscript introducing
+> [`suwo`](https://github.com/ropensci/suwo), an R package for querying,
+> standardizing, and downloading biodiversity media (audio, images,
+> video) from GBIF, iNaturalist, Macaulay Library, WikiAves, and
+> Xeno-Canto.
 
   - **Repository**: <https://github.com/maRce10/suwo_publication>
   - **Website**: <https://marce10.github.io/suwo_publication/> (both

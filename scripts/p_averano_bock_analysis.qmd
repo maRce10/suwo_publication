@@ -1557,12 +1557,7 @@ for (i in unique(bock_est$population)) {
 
 Example output -- first page of the Brazil per-population catalog:
 
-```{r show example catalog}
-#| echo: false
-
-knitr::include_graphics("./output/catalogs/Brazil-Catalog_p1.jpeg")
-
-```
+![](images/Brazil-Catalog_p1.jpeg)
 
 ## Twelve-song spectrogram comparison across populations
 
@@ -1982,12 +1977,7 @@ cat("Saved to ./output/fig_twelve_spectrograms.png\n")
 
 ```
 
-```{r show twelve song spectrograms}
-#| echo: false
-
-knitr::include_graphics("./output/fig_twelve_spectrograms.png")
-
-```
+![](images/fig_twelve_spectrograms.png)
 
 ---
 
