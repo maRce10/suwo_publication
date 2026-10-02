@@ -12,6 +12,10 @@ Analysis code and data for the manuscript introducing
 standardizing, and downloading biodiversity media (audio, images, video)
 from GBIF, iNaturalist, Macaulay Library, WikiAves, and Xeno-Canto.
 
+  - **Repository**: <https://github.com/maRce10/suwo_publication>
+  - **Website**: <https://marce10.github.io/suwo_publication/> (both
+    notebooks, rendered; see “Website” below)
+
 ## Repository structure
 
     .
@@ -56,10 +60,15 @@ The two notebooks, plus a landing page, are published as a single
 [Quarto website](https://quarto.org/docs/websites/) with a shared navbar
 – one tab per analysis.
 [`.github/workflows/publish.yml`](.github/workflows/publish.yml) renders
-and deploys it to the `gh-pages` branch on every push to `main`. Once
-this repo is pushed to GitHub and Pages is enabled (Settings → Pages →
-Deploy from a branch → `gh-pages`), it will be live at
-`https://<owner>.github.io/<repo>/`.
+and deploys it to the `gh-pages` branch on every push to `main`; once
+Pages is enabled (Settings → Pages → Deploy from a branch → `gh-pages`),
+it’s live at <https://marce10.github.io/suwo_publication/>.
+
+**Status:** the first `publish.yml` run failed at the render step and
+`gh-pages` hasn’t been created yet, so the site isn’t live. Check the
+[failed
+run](https://github.com/maRce10/suwo_publication/actions/runs/37071659362)
+for the actual error.
 
 Case study 1’s notebook depends on packages that aren’t worth installing
 in CI just to assemble a page (`warbleR`, `brms`+`cmdstanr`, `suwo`, …).

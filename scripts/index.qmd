@@ -17,4 +17,4 @@ Demonstrates `suwo`-enabled image retrieval to train a YOLO detection/classifica
 
 ---
 
-Source code and data: see the project's GitHub repository.
+Source code and data: [github.com/maRce10/suwo_publication](https://github.com/maRce10/suwo_publication).
