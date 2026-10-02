@@ -60,15 +60,13 @@ The two notebooks, plus a landing page, are published as a single
 [Quarto website](https://quarto.org/docs/websites/) with a shared navbar
 – one tab per analysis.
 [`.github/workflows/publish.yml`](.github/workflows/publish.yml) renders
-and deploys it to the `gh-pages` branch on every push to `main`; once
-Pages is enabled (Settings → Pages → Deploy from a branch → `gh-pages`),
-it’s live at <https://marce10.github.io/suwo_publication/>.
-
-**Status:** the first `publish.yml` run failed at the render step and
-`gh-pages` hasn’t been created yet, so the site isn’t live. Check the
-[failed
-run](https://github.com/maRce10/suwo_publication/actions/runs/37071659362)
-for the actual error.
+the site and deploys it straight to GitHub Pages (via
+`actions/deploy-pages`, no `gh-pages` branch involved) on every push to
+`main`. This requires **Settings → Pages → Build and deployment →
+Source: “GitHub Actions”** (not “Deploy from a branch” – that setting
+instead triggers GitHub’s own automatic Jekyll build of the plain
+README, which is a different, unrelated site). Once set, it’s live at
+<https://marce10.github.io/suwo_publication/>.
 
 Case study 1’s notebook depends on packages that aren’t worth installing
 in CI just to assemble a page (`warbleR`, `brms`+`cmdstanr`, `suwo`, …).
