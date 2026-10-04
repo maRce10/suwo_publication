@@ -1,7 +1,7 @@
 Obtaining nature media with the R package suwo: data and code repository
 ================
 Marcelo Araya-Salas
-2026-10-02
+2026-10-04
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
@@ -15,8 +15,7 @@ Marcelo Araya-Salas
 > Xeno-Canto.
 
   - **Repository**: <https://github.com/maRce10/suwo_publication>
-  - **Website**: <https://marce10.github.io/suwo_publication/> (both
-    notebooks, rendered; see “Website” below)
+  - **Website**: <https://marce10.github.io/suwo_publication/>
 
 ## Repository structure
 
@@ -26,7 +25,7 @@ Marcelo Araya-Salas
     ├── scripts/
     │   ├── _quarto.yml                      # website project config (shared navbar/theme)
     │   ├── index.qmd                        # site landing page
-    │   ├── _freeze/                         # cached chunk outputs (see "Website" below)
+    │   ├── _freeze/                         # cached chunk outputs for the website build
     │   ├── p_averano_bock_analysis.qmd      # case study 1 notebook
     │   ├── mink_detection_analysis.qmd      # case study 2 notebook
     │   ├── mink_detection_data.yaml         # YOLO dataset config for case study 2
@@ -58,27 +57,10 @@ analysis is tracked.
 
 ## Website
 
-The two notebooks, plus a landing page, are published as a single
-[Quarto website](https://quarto.org/docs/websites/) with a shared navbar
-– one tab per analysis.
-[`.github/workflows/publish.yml`](.github/workflows/publish.yml) renders
-the site and deploys it straight to GitHub Pages (via
-`actions/deploy-pages`, no `gh-pages` branch involved) on every push to
-`main`. This requires **Settings → Pages → Build and deployment →
-Source: “GitHub Actions”** (not “Deploy from a branch” – that setting
-instead triggers GitHub’s own automatic Jekyll build of the plain
-README, which is a different, unrelated site). Once set, it’s live at
+Both notebooks, plus a landing page, are published as a [Quarto
+website](https://quarto.org/docs/websites/) with a shared navbar – one
+tab per analysis – live at
 <https://marce10.github.io/suwo_publication/>.
-
-Case study 1’s notebook depends on packages that aren’t worth installing
-in CI just to assemble a page (`warbleR`, `brms`+`cmdstanr`, `suwo`, …).
-Instead, `scripts/_quarto.yml` sets `execute: freeze: true`, and the
-cached chunk outputs live in `scripts/_freeze/` (committed). CI only
-needs R with `knitr`/`rmarkdown` to replay that cache – it never
-re-executes the analysis code. If you add new *executed* content to
-either notebook, render locally first (`quarto render` from `scripts/`,
-where the full dependency stack is installed) to refresh `_freeze/`,
-then commit it alongside your changes.
 
 ## Case studies
 
