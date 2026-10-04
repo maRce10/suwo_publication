@@ -782,12 +782,23 @@ cat("Recordings before dedup:", n_before_dedup,
 ```{r add metadata 2}
 
 
-map_locations(
+map_plot <- map_locations(
   attr(bock_est, "metadata"),
   tags = c("latitude", "longitude", "population"),
   by = "population",
   palette = function(n) viridis::mako(n, begin = 0.2, end = 0.75)
 )
+
+## drop the minimap inset -- every corner is already taken by another
+## control (zoom top-left, the custom "Popups" toggle top-right, the
+## scale bar bottom-left), so the minimap (default bottom-right) ends
+## up covering real data points with no free corner to move it to
+map_plot$x$calls <- Filter(
+  function(call) call$method != "addMiniMap",
+  map_plot$x$calls
+)
+
+map_plot
 
 ```
 
