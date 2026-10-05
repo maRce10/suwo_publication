@@ -804,7 +804,7 @@ map_plot <- leaflet::fitBounds(
   lat1 = min(map_metadata$latitude, na.rm = TRUE),
   lng2 = max(map_metadata$longitude, na.rm = TRUE),
   lat2 = max(map_metadata$latitude, na.rm = TRUE),
-  options = list(paddingBottomRight = c(40, 40))
+  options = list(paddingBottomRight = c(120, 120))
 )
 
 map_plot
