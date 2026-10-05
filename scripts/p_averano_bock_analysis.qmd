@@ -782,20 +782,29 @@ cat("Recordings before dedup:", n_before_dedup,
 ```{r add metadata 2}
 
 
+map_metadata <- attr(bock_est, "metadata")
+
 map_plot <- map_locations(
-  attr(bock_est, "metadata"),
+  map_metadata,
   tags = c("latitude", "longitude", "population"),
   by = "population",
   palette = function(n) viridis::mako(n, begin = 0.2, end = 0.75)
 )
 
-## drop the minimap inset -- every corner is already taken by another
-## control (zoom top-left, the custom "Popups" toggle top-right, the
-## scale bar bottom-left), so the minimap (default bottom-right) ends
-## up covering real data points with no free corner to move it to
-map_plot$x$calls <- Filter(
-  function(call) call$method != "addMiniMap",
-  map_plot$x$calls
+## map_locations() auto-fits the view tightly to the data, so the
+## minimap inset (bottom-right, 150x150px, no position argument
+## exposed) ends up covering real points -- every other corner is
+## already taken by another control (zoom top-left, the custom
+## "Popups" toggle top-right, the scale bar bottom-left). Re-fitting
+## with reserved bottom-right padding makes the auto-fit zoom out just
+## enough that no point falls under the minimap, instead of removing it.
+map_plot <- leaflet::fitBounds(
+  map_plot,
+  lng1 = min(map_metadata$longitude, na.rm = TRUE),
+  lat1 = min(map_metadata$latitude, na.rm = TRUE),
+  lng2 = max(map_metadata$longitude, na.rm = TRUE),
+  lat2 = max(map_metadata$latitude, na.rm = TRUE),
+  options = list(paddingBottomRight = c(40, 40))
 )
 
 map_plot
