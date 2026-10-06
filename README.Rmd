@@ -72,7 +72,7 @@ Recordings and metadata for the species were assembled across five repositories 
 
 Raw audio recordings are **not** stored in this repository. To replicate the analysis, either:
 
-1. Use `data/processed/p_averano_bock_extended_selection_table.rds` directly — this extended selection table already embeds the annotated "bock" song clips, so the full acoustic/statistical pipeline runs without downloading anything (this is the default entry point in `p_averano_bock_analysis.qmd`), or
+1. Use `data/processed/p_averano_bock_extended_selection_table.rds` ([download](https://github.com/maRce10/suwo_publication/raw/main/data/processed/p_averano_bock_extended_selection_table.rds), ~25 MB) directly — this extended selection table already embeds the annotated "bock" song clips, so the full acoustic/statistical pipeline runs without downloading anything (this is the default entry point in `p_averano_bock_analysis.qmd`), or
 2. Re-run the download/annotation chunks at the top of `p_averano_bock_analysis.qmd` (set `eval: true`) to re-query and re-download the dataset from the five repositories via `suwo`, then rebuild the selection table yourself.
 
 ### 2. Invasive species management: detecting mammals (American Mink) in Patagonia

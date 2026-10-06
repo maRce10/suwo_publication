@@ -1,9 +1,18 @@
 ---
 title: "Obtaining nature media with the R package suwo"
 subtitle: "Data and code repository"
+toc: false
 ---
 
+::: {.alert .alert-info}
 This site holds the analysis code and data behind the manuscript introducing [`suwo`](https://github.com/ropensci/suwo), an R package for querying, standardizing, and downloading biodiversity media (audio, images, video) from GBIF, iNaturalist, Macaulay Library, WikiAves, and Xeno-Canto.
+:::
+
+::: {.alert .alert-warning}
+**Please cite the paper as:**
+
+Araya-Salas, M.[](https://orcid.org/0000-0003-3594-619X){.orcid title="ORCID 0000-0003-3594-619X" aria-label="ORCID of Araya-Salas, M"}, Elizondo-Calvo, J.[](https://orcid.org/0009-0004-5873-9585){.orcid title="ORCID 0009-0004-5873-9585" aria-label="ORCID of Elizondo-Calvo, J"}, Soto, G. E.[](https://orcid.org/0000-0002-9706-6588){.orcid title="ORCID 0000-0002-9706-6588" aria-label="ORCID of Soto, G. E"}, Jimenez, D.[](https://orcid.org/0009-0009-5811-7918){.orcid title="ORCID 0009-0009-5811-7918" aria-label="ORCID of Jimenez, D"}, & Rico-Guevara, A.[](https://orcid.org/0000-0003-4067-5312){.orcid title="ORCID 0000-0003-4067-5312" aria-label="ORCID of Rico-Guevara, A"} (in review). Obtaining nature media with the R package suwo. *Journal TBD*. DOI: TBD
+:::
 
 Two case studies demonstrate the package, each with its own notebook (see the navbar above):
 

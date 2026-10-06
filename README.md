@@ -84,6 +84,8 @@ Raw audio recordings are **not** stored in this repository. To replicate
 the analysis, either:
 
 1.  Use `data/processed/p_averano_bock_extended_selection_table.rds`
+    ([download](https://github.com/maRce10/suwo_publication/raw/main/data/processed/p_averano_bock_extended_selection_table.rds),
+    \~25 MB)
     directly — this extended selection table already embeds the
     annotated “bock” song clips, so the full acoustic/statistical
     pipeline runs without downloading anything (this is the default

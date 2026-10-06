@@ -14,6 +14,10 @@ website:
         text: "Case study 1: Bellbird song variation"
       - href: mink_detection_analysis.qmd
         text: "Case study 2: Mink detection"
+    right:
+      - icon: github
+        href: https://github.com/maRce10/suwo_publication
+        aria-label: GitHub repository
 
 format:
   html:
@@ -26,6 +30,12 @@ format:
     code-fold: true
     code-tools: true
     df-print: kable
+    fig-dpi: 300
+    include-after-body: fig_download.html
 
 execute:
   freeze: true
+
+knitr:
+  opts_chunk:
+    fig.retina: 1  # keep figures at exactly fig-dpi (300), not 2x

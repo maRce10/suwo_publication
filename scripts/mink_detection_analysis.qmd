@@ -127,7 +127,7 @@ The model-training steps below are Python (`ultralytics`, `opencv-python`), run 
 :::
 
 ::: {.alert .alert-info}
-Raw images are **not** included in this repository (tens of thousands of files, downloaded on demand). Query metadata, auto-generated labels, and the train/validation split are also not included -- they are reproducible from the chunks below, which default to `eval: false` since every step here is either a slow bulk download or requires a GPU. The one artifact kept for reference is the log of an actual download run: [`data/raw/mink_detection_logs/download_images.log`](../data/raw/mink_detection_logs/download_images.log) (1,131 of 1,461 files downloaded successfully in that run, ~3.9 hours).
+Raw images are **not** included in this repository (tens of thousands of files, downloaded on demand). Query metadata, auto-generated labels, and the train/validation split are also not included -- they are reproducible from the chunks below, which default to `eval: false` since every step here is either a slow bulk download or requires a GPU. The one artifact kept for reference is the log of an actual download run: [`data/raw/mink_detection_logs/download_images.log`](../data/raw/mink_detection_logs/download_images.log) ([download](https://github.com/maRce10/suwo_publication/raw/main/data/raw/mink_detection_logs/download_images.log); 1,131 of 1,461 files downloaded successfully in that run, ~3.9 hours).
 :::
 
 # Query and download images
@@ -565,7 +565,7 @@ if __name__ == "__main__":
 
 # Dataset configuration
 
-* YOLO's training command (next section) points at a small YAML file declaring the three focal classes and the train/validation image directories produced above: [`scripts/mink_detection_data.yaml`](mink_detection_data.yaml).
+* YOLO's training command (next section) points at a small YAML file declaring the three focal classes and the train/validation image directories produced above: [`scripts/mink_detection_data.yaml`](mink_detection_data.yaml) ([download](https://github.com/maRce10/suwo_publication/raw/main/scripts/mink_detection_data.yaml)).
 
 ```{r show yaml}
 #| echo: false
