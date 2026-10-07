@@ -77,12 +77,16 @@ This analysis serves as the invasive-species-management case study accompanying 
 
 :::
 
+- The model-training steps below are Python (`ultralytics`, `opencv-python`), run through `reticulate`. They assume a Python environment with those packages already installed (e.g. `pip install ultralytics opencv-python`) and, for training, a CUDA-capable GPU.
+
+- Raw images are **not** included in this repository (tens of thousands of files, downloaded on demand). The query metadata returned by `suwo` **is** included (one CSV per species in `data/processed/mink_detection_queries/`, 74,490 records), so the data-availability plots and map below are rendered directly from it. Auto-generated labels and the train/validation split are not included -- they are reproducible from the chunks below, which default to `eval: false` since every step there is either a slow bulk download or requires a GPU. The one artifact kept for reference is the log of an actual download run: [`data/raw/mink_detection_logs/download_images.log`](../data/raw/mink_detection_logs/download_images.log) ([download](https://github.com/maRce10/suwo_publication/raw/main/data/raw/mink_detection_logs/download_images.log); 1,131 of 1,461 files downloaded successfully in that run, ~3.9 hours).
+
 # Analysis flowchart {.unnumbered .unlisted}
 
 ```{mermaid}
 
 flowchart LR
-  A[Query & download images] --> B(Preview pretrained-model detections)
+  A[Query & download images] --> B("Preview</br>pretrained-model</br>detections")
   B --> C(Auto-generate labels)
   C --> D(Train / validation split)
   D --> E(Train YOLO model)
@@ -115,20 +119,13 @@ sketchy::load_packages(
     "knitr",
     "tidyverse",
     "ggpattern",
+    "maps",
     github = "maRce10/suwo",
     "reticulate"
   )
 )
 
 ```
-
-::: {.alert .alert-info}
-The model-training steps below are Python (`ultralytics`, `opencv-python`), run through `reticulate`. They assume a Python environment with those packages already installed (e.g. `pip install ultralytics opencv-python`) and, for training, a CUDA-capable GPU.
-:::
-
-::: {.alert .alert-info}
-Raw images are **not** included in this repository (tens of thousands of files, downloaded on demand). Query metadata, auto-generated labels, and the train/validation split are also not included -- they are reproducible from the chunks below, which default to `eval: false` since every step here is either a slow bulk download or requires a GPU. The one artifact kept for reference is the log of an actual download run: [`data/raw/mink_detection_logs/download_images.log`](../data/raw/mink_detection_logs/download_images.log) ([download](https://github.com/maRce10/suwo_publication/raw/main/data/raw/mink_detection_logs/download_images.log); 1,131 of 1,461 files downloaded successfully in that run, ~3.9 hours).
-:::
 
 # Query and download images
 
@@ -195,6 +192,7 @@ download_media(metadata = lontra_canadensis, cores = N_CORES, path = IMAGES_FOLD
 lontra_felina <- read.csv(paste0(QUERIES_FOLDER, "/lontra_felina.csv"))
 download_media(metadata = lontra_felina, cores = N_CORES, path = IMAGES_FOLDER)
 
+
 ```
 
 # Visualize data availability
@@ -202,7 +200,8 @@ download_media(metadata = lontra_felina, cores = N_CORES, path = IMAGES_FOLDER)
 * Query metadata (saved above, one CSV per species) is combined to show how many images are available per species, and the same counts collapsed to `Lontra spp.` given how few images each individual otter species has relative to the mink and rat.
 
 ```{r data availability barplots}
-#| eval: false
+#| eval: true
+#| message: false
 
 queries_files <- list.files(
   path = "./data/processed/mink_detection_queries",
@@ -210,7 +209,7 @@ queries_files <- list.files(
   full.names = TRUE
 )
 
-combined_data <- bind_rows(lapply(queries_files, read_csv))
+combined_data <- bind_rows(lapply(queries_files, read_csv, show_col_types = FALSE))
 combined_data %>% glimpse()
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -220,12 +219,16 @@ combined_data %>%
   summarise(n = n()) %>%
   ggplot(aes(x = species, y = n)) +
   geom_bar(stat = "identity") +
-  theme_light() +
+  theme_classic() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 ggsave("./output/mink_detection_species_barplot.png",
        width = 1200, height = 800,
        scale = 1.2, units = "px")
+
+# colors for plots
+sp_colors <- adjustcolor(c("red", "gray", "blue", "green", "orange", "purple", "darkred"),alpha.f = 0.7)
+
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # same, but stack species with "Lontra" in the name as "Lontra spp."
@@ -239,8 +242,8 @@ combined_data %>%
   summarise(n = n()) %>%
   ggplot(aes(x = species1, y = n, fill = Species)) +
   geom_bar(stat = "identity") +
-  scale_fill_manual(values = c("red", "gray", "blue", "green", "orange", "purple", "darkred")) +
-  theme_light() +
+  scale_fill_manual(values = sp_colors) +
+  theme_classic() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
   labs(x = "")
 
@@ -248,7 +251,13 @@ ggsave("./output/mink_detection_species_barplot_lontra_spp.png",
        width = 1200, height = 800,
        scale = 1.2, units = "px")
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+```
+
+* Number of detections actually used for training (produced by the YOLO-label step below), per class:
+
+```{r training data barplot}
+#| eval: false
+
 # training data: detections actually used after the YOLO-label step below
 counts <- read.csv("./data/processed/mink_detection_class_detection_counts.csv")
 
@@ -268,6 +277,70 @@ ggsave("./output/mink_detection_training_data_barplot.png",
        width = 1200, height = 800,
        scale = 1.2, units = "px")
 
+```
+
+# Map record locations
+
+* Geographic distribution of the retrieved records, colored by species. `suwo::map_locations()` builds an interactive map (with clustering and photo popups); with ~74k records the resulting widget is too heavy (~100 MB) to embed in this page, so the code is shown but not run here, and a static version of the same map is rendered below instead.
+
+```{r interactive map of records}
+#| eval: false
+
+combined_data$species <- factor(
+  combined_data$species,
+  levels = c("Neogale vison", "Rattus rattus", "Lontra provocax", "Lontra longicaudis",
+             "Lontra felina", "Lontra canadensis", "Lontra annectens"),
+  ordered = TRUE
+)
+
+map_locations(
+  combined_data,
+  cluster = TRUE,
+  by = "species",
+  type = "circles",
+  palette = function(n) rep(sp_colors,
+                            length.out = n),
+  tags = c("repository", "key", "species", "date", "country", "locality", "user_name"),
+  show_media = TRUE,
+  popup_size = 1
+)
+```
+
+```{r static map of records}
+#| eval: true
+#| fig-width: 10
+#| fig-height: 5.5
+
+species_levels <- c("Neogale vison", "Rattus rattus", "Lontra provocax", "Lontra longicaudis",
+                    "Lontra felina", "Lontra canadensis", "Lontra annectens")
+
+map_data_df <- combined_data %>%
+  filter(!is.na(latitude), !is.na(longitude)) %>%
+  mutate(species = factor(species, levels = species_levels))
+
+ggplot() +
+  geom_polygon(
+    data = map_data("world"),
+    aes(x = long, y = lat, group = group),
+    fill = "gray92", color = "gray70", linewidth = 0.1
+  ) +
+  geom_point(
+    data = map_data_df,
+    aes(x = longitude, y = latitude, color = species),
+    size = 0.4, alpha = 0.5
+  ) +
+  scale_color_manual(
+    values = sp_colors,
+    name = "Species"
+  ) +
+  guides(color = guide_legend(override.aes = list(size = 3, alpha = 1))) +
+  coord_quickmap(ylim = c(-60, 85), expand = FALSE) +
+  theme_light() +
+  theme(legend.text = element_text(face = "italic")) +
+  labs(x = "Longitude", y = "Latitude")
+
+ggsave("./output/mink_detection_records_map.png",
+       width = 10, height = 5.5, dpi = 300)
 ```
 
 # Preview pretrained-model detections

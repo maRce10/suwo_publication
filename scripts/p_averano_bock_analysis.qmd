@@ -793,18 +793,18 @@ map_plot <- map_locations(
 
 ## map_locations() auto-fits the view tightly to the data, so the
 ## minimap inset (bottom-right, 150x150px, no position argument
-## exposed) ends up covering real points -- every other corner is
-## already taken by another control (zoom top-left, the custom
-## "Popups" toggle top-right, the scale bar bottom-left). Re-fitting
-## with reserved bottom-right padding makes the auto-fit zoom out just
-## enough that no point falls under the minimap, instead of removing it.
-map_plot <- leaflet::fitBounds(
+## exposed) and the legend stacked above it end up covering real points.
+## Instead of removing the minimap, the view is fixed to one chosen by
+## hand (tuned interactively at the map's on-page size, ~820x464px) that
+## leaves every point clear of both. zoomSnap = 0.25 allows the
+## fractional zoom level (default snaps to whole levels).
+map_plot$x$options$zoomSnap <- 0.25
+
+map_plot <- leaflet::setView(
   map_plot,
-  lng1 = min(map_metadata$longitude, na.rm = TRUE),
-  lat1 = min(map_metadata$latitude, na.rm = TRUE),
-  lng2 = max(map_metadata$longitude, na.rm = TRUE),
-  lat2 = max(map_metadata$latitude, na.rm = TRUE),
-  options = list(paddingBottomRight = c(120, 120))
+  lng = -49.178,
+  lat = 0.392,
+  zoom = 4.5
 )
 
 map_plot
