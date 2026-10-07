@@ -67,10 +67,6 @@ knitr::opts_chunk$set(
 
 Case study 1's raw audio recordings and case study 2's images and training labels are not stored in the repository (see each case study below for why and how to reproduce them). `data/processed/p_averano_extended_selection_table.rds` (the unfiltered, all-song-types selection table, ~100 MB) is also excluded via `.gitignore`; only the "bock"-song-filtered table actually used in the analysis is tracked.
 
-## Website
-
-Both notebooks, plus a landing page, are published in a website live at <https://marce10.github.io/suwo_publication/>.
-
 ## Case studies
 
 ### 1. Geographic variation in Bearded Bellbird (*Procnias averano*) songs

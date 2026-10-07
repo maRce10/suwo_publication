@@ -59,11 +59,6 @@ all-song-types selection table, ~100 MB) is also excluded via
 `.gitignore`; only the “bock”-song-filtered table actually used in the
 analysis is tracked.
 
-## Website
-
-Both notebooks, plus a landing page, are published in a website live at
-<https://marce10.github.io/suwo_publication/>.
-
 ## Case studies
 
 ### 1. Geographic variation in Bearded Bellbird (*Procnias averano*) songs
