@@ -242,7 +242,11 @@ combined_data %>%
   summarise(n = n()) %>%
   ggplot(aes(x = species1, y = n, fill = Species)) +
   geom_bar(stat = "identity") +
-  scale_fill_manual(values = sp_colors) +
+  scale_fill_manual(
+    values = sp_colors,
+    breaks = c("Lontra provocax", "Lontra longicaudis", "Lontra felina",
+               "Lontra canadensis", "Lontra annectens")
+  ) +
   theme_classic() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
   labs(x = "")
