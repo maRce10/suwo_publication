@@ -229,6 +229,9 @@ ggsave("./output/mink_detection_species_barplot.png",
 # colors for plots
 sp_colors <- adjustcolor(c("red", "gray", "blue", "green", "orange", "purple", "darkred"),alpha.f = 0.7)
 
+sp_colors <- viridis::mako(7, alpha = 0.9)
+names(sp_colors) <- c("Neogale vison", "Rattus rattus", "Lontra provocax", "Lontra longicaudis",
+                       "Lontra felina", "Lontra canadensis", "Lontra annectens")
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # same, but stack species with "Lontra" in the name as "Lontra spp."
