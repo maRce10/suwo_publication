@@ -121,7 +121,10 @@ sketchy::load_packages(
     "ggpattern",
     "maps",
     github = "maRce10/suwo",
-    "reticulate"
+    "reticulate",
+    "ggtext",
+    "htmlwidgets",
+    "webshot2"
   )
 )
 
@@ -227,36 +230,66 @@ ggsave("./output/mink_detection_species_barplot.png",
        scale = 1.2, units = "px")
 
 # colors for plots
-sp_colors <- adjustcolor(c("red", "gray", "blue", "green", "orange", "purple", "darkred"),alpha.f = 0.7)
-
 sp_colors <- viridis::mako(7, alpha = 0.9)
+
 names(sp_colors) <- c("Neogale vison", "Rattus rattus", "Lontra provocax", "Lontra longicaudis",
                        "Lontra felina", "Lontra canadensis", "Lontra annectens")
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 # same, but stack species with "Lontra" in the name as "Lontra spp."
 combined_data %>%
-  mutate(species1 = ifelse(grepl("Lontra", species), "Lontra spp.", species)) %>%
-  mutate(species = factor(species, levels = c(
-    "Neogale vison", "Rattus rattus", "Lontra provocax", "Lontra longicaudis",
-    "Lontra felina", "Lontra canadensis", "Lontra annectens"
-  ))) %>%
-  group_by(species1, Species = species) %>%
-  summarise(n = n()) %>%
-  ggplot(aes(x = species1, y = n, fill = Species)) +
-  geom_bar(stat = "identity") +
-  scale_fill_manual(
-    values = sp_colors,
-    breaks = c("Lontra provocax", "Lontra longicaudis", "Lontra felina",
-               "Lontra canadensis", "Lontra annectens")
-  ) +
-  theme_classic() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-  labs(x = "")
+    mutate(species1 = ifelse(grepl("Lontra", species), "Lontra spp.", species)) %>%
+    mutate(species = factor(species, levels = names(sp_colors))) %>%
+    group_by(species1, Species = species) %>%
+    summarise(n = n()) %>%
+    ggplot(aes(x = species1, y = n, fill = Species)) +
+    geom_bar(stat = "identity") +
+    labs(fill = "*Lontra* spp.") +
+    scale_fill_manual(
+        values = sp_colors,
+        labels = paste0("*", gsub(
+            "Lontra",
+            "L.",
+            c(
+                "Lontra provocax",
+                "Lontra longicaudis",
+                "Lontra felina",
+                "Lontra canadensis",
+                "Lontra annectens"
+            )
+        ), "*"),
+        breaks = c(
+            "Lontra provocax",
+            "Lontra longicaudis",
+            "Lontra felina",
+            "Lontra canadensis",
+            "Lontra annectens"
+        )
+    ) +
+    theme_classic() +
+    theme(
+        axis.text.x = element_markdown(angle = 45, hjust = 1),
+        legend.text = element_markdown(),
+        legend.title = element_markdown()
+    ) +
+    labs(x = "", y = "Number of images") +
+    scale_x_discrete(
+        labels = c(
+            "Neogale vison" = "*Neogale vison*",
+            "Rattus rattus" = "*Rattus rattus*",
+            "Lontra spp."   = "*Lontra* spp."
+        )
+    )
 
-ggsave("./output/mink_detection_species_barplot_lontra_spp.png",
-       width = 1200, height = 800,
-       scale = 1.2, units = "px")
+
+ggsave(
+    "./output/mink_detection_species_barplot_lontra_spp.png", 
+    device =  grDevices::png,
+    width = 1200,
+    height = 800,
+    scale = 1.2,
+    units = "px"
+)
 
 ```
 
@@ -280,7 +313,7 @@ counts %>%
   theme_light() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
-ggsave("./output/mink_detection_training_data_barplot.png",
+ggsave("./output/mink_detection_training_data_barplot.png", grDevices::png,
        width = 1200, height = 800,
        scale = 1.2, units = "px")
 
@@ -288,10 +321,10 @@ ggsave("./output/mink_detection_training_data_barplot.png",
 
 # Map record locations
 
-* Geographic distribution of the retrieved records, colored by species. `suwo::map_locations()` builds an interactive map (with clustering and photo popups); with ~74k records the resulting widget is too heavy (~100 MB) to embed in this page, so the code is shown but not run here, and a static version of the same map is rendered below instead.
+* Geographic distribution of the retrieved records, colored by species. `suwo::map_locations()` builds an interactive map (with clustering and photo popups); with ~74k records the resulting widget is too heavy (~100 MB) to embed in this page, so we will only show a subsample of 1000 records.
 
 ```{r interactive map of records}
-#| eval: false
+#| eval: true
 
 combined_data$species <- factor(
   combined_data$species,
@@ -300,8 +333,11 @@ combined_data$species <- factor(
   ordered = TRUE
 )
 
-map_locations(
-  combined_data,
+# subsample
+sub_combined_data <- combined_data[sample(1:nrow(combined_data), 1000),]
+
+map_widget <- map_locations(
+  sub_combined_data,
   cluster = TRUE,
   by = "species",
   type = "circles",
@@ -310,45 +346,50 @@ map_locations(
   tags = c("repository", "key", "species", "date", "country", "locality", "user_name"),
   show_media = TRUE,
   popup_size = 1
+) 
+
+map_widget
+```
+
+The map can be saved as a image file as follows:
+```{r save interactive map of records}
+#| eval: false
+
+# reset coordinates
+map_widget <- leaflet::setView(map_widget,
+                               lng = 57,
+                               lat = 10,
+                               zoom = 1)
+
+# reduce point size
+map_widget$x$calls <- lapply(map_widget$x$calls, function(call) {
+    if (call$method == "addCircleMarkers")
+        call$args[[3]] <- 1  # default is 6
+    call
+})
+
+# add italic font to species names
+map_widget <- htmlwidgets::prependContent(
+  map_widget,
+  htmltools::tags$style(".info.legend { font-style: italic; }")
 )
+
+# save html
+htmlwidgets::saveWidget(map_widget,
+                        "./output/mink_detection_interactive_map.html",
+                        selfcontained = TRUE)
+
+# extract image
+webshot2::webshot(
+    "./output/mink_detection_interactive_map.html",
+    file    = "./output/mink_detection_interactive_map.png",
+    vwidth  = 10 * 96 * 0.75,
+    vheight = 5.5 * 96 * 0.65,
+    zoom    = 300 / 97 * 0.8
+)
+
 ```
 
-```{r static map of records}
-#| eval: true
-#| fig-width: 10
-#| fig-height: 5.5
-
-species_levels <- c("Neogale vison", "Rattus rattus", "Lontra provocax", "Lontra longicaudis",
-                    "Lontra felina", "Lontra canadensis", "Lontra annectens")
-
-map_data_df <- combined_data %>%
-  filter(!is.na(latitude), !is.na(longitude)) %>%
-  mutate(species = factor(species, levels = species_levels))
-
-ggplot() +
-  geom_polygon(
-    data = map_data("world"),
-    aes(x = long, y = lat, group = group),
-    fill = "gray92", color = "gray70", linewidth = 0.1
-  ) +
-  geom_point(
-    data = map_data_df,
-    aes(x = longitude, y = latitude, color = species),
-    size = 0.4, alpha = 0.5
-  ) +
-  scale_color_manual(
-    values = sp_colors,
-    name = "Species"
-  ) +
-  guides(color = guide_legend(override.aes = list(size = 3, alpha = 1))) +
-  coord_quickmap(ylim = c(-60, 85), expand = FALSE) +
-  theme_light() +
-  theme(legend.text = element_text(face = "italic")) +
-  labs(x = "Longitude", y = "Latitude")
-
-ggsave("./output/mink_detection_records_map.png",
-       width = 10, height = 5.5, dpi = 300)
-```
 
 # Preview pretrained-model detections
 
@@ -667,6 +708,60 @@ yolo detect train data=./scripts/mink_detection_data.yaml model=yolov10l.pt epoc
 
 ```
 
+```{r yolo results}
+#| eval: false
+#| echo: false
+
+cm_counts <- tribble(
+  ~Predicted,    ~N_vison, ~R_rattus, ~Lontra_spp, ~background,
+  "N_vison",           90,         1,           2,          19,
+  "R_rattus",           1,        91,           1,          34,
+  "Lontra_spp",         3,         1,          87,          47,
+  "background",         6,         7,          10,           0
+)
+
+
+class_labels <- c(
+  N_vison    = "*Neogale vison*",
+  R_rattus   = "*Rattus rattus*",
+  Lontra_spp = "*Lontra* spp.",
+  background = "background"
+)
+
+cm_long <- cm_counts %>%
+  pivot_longer(-Predicted, names_to = "True", values_to = "n") %>%
+  group_by(True) %>%
+  mutate(prop = n / sum(n)) %>%
+  ungroup() %>%
+  mutate(
+    Predicted = factor(Predicted, levels = rev(class_levels)),
+    True = factor(True, levels = class_levels),
+    label = ifelse(Predicted == "background" & True == "background", NA, sprintf("%.2f", prop))
+  )
+
+ggplot(cm_long, aes(x = True, y = Predicted, fill = prop)) +
+  geom_tile(color = "white") +
+  geom_text(aes(label = label), size = 3.5, na.rm = TRUE) +
+  scale_fill_gradient(low = sp_colors[7], high = sp_colors[3], limits = c(0, 1), name = NULL) +
+  scale_x_discrete(labels = class_labels) +
+  scale_y_discrete(labels = class_labels) +
+  coord_fixed() +
+  labs(title = "Confusion Matrix Normalized", x = "True", y = "Predicted") +
+  theme_bw() +
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 11),
+    panel.border = element_blank(),
+    axis.ticks = element_blank(),
+    axis.text.x = element_markdown(angle = 45, hjust = 1),
+    axis.text.y = element_markdown(),
+    panel.grid = element_blank()
+  )
+
+ggsave("./output/confusion_matrix.png",
+       width = 1200, height = 1000,
+       device =  grDevices::png,
+       scale = 1.2, units = "px")
+```
 ---
 
 # References {.unnumbered .unlisted}
